@@ -16,7 +16,7 @@ def initiateBoard():
     for row in range(numberOfRows):
         rowList = []
         for col in range(numberOfCols):
-            rowList.append("A")
+            rowList.append(" ")
         boardList.append(rowList)
 
 def drawBoard():
@@ -42,8 +42,6 @@ def drawBoard():
                 colCounter = colCounter + 1
             print()
         rowCounter = rowCounter + 1
-
-
 
 initiateBoard()
 limit = numberOfRows + numberOfCols
