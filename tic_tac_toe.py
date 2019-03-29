@@ -20,28 +20,29 @@ def initiateBoard():
         boardList.append(rowList)
 
 def drawBoard():
-    rowCounter = 0
+    rowCounter = 1
     for row in boardList:
-        colCounter = 0
+        colCounter = 1
         for box in row:
             # draw boxes and | for each row
-            if colCounter < numberOfRows - 1:
+            if colCounter < numberOfCols :
                 print("{}|".format(box), end='')
             else:
                 print("{}".format(box), end='')
             colCounter = colCounter + 1
         print()
+        colCounter = 1
         # end of draw boxes and | for each row
-        colCounter = 0
-        if rowCounter < numberOfRows - 1:
+        if rowCounter < numberOfRows:
             for lineSeparator in row:
-                if colCounter < numberOfRows - 1:
+                if colCounter < numberOfCols :
                     print("{}".format(withPlus), end='')
                 else:
                     print("{}".format(withOutPlus), end='')
                 colCounter = colCounter + 1
-            print()
+        print()
         rowCounter = rowCounter + 1
+
 
 initiateBoard()
 limit = numberOfRows + numberOfCols
