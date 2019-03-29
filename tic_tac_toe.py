@@ -46,15 +46,25 @@ def drawBoard():
 
 
 initiateBoard()
-drawBoard()
-#while True:
-#    drawBoard()
-#    print("player 1")
-#    r = int(input("enter which row:"))
-#    c = int(input("enter which box:"))
-#    boardList[r][c] = "O"
-#    drawBoard()
-#    print("player 2")
-#    r = int(input("enter which row:"))
-#    c = int(input("enter which box:"))
-#    boardList[r][c] = "X"
+limit = numberOfRows + numberOfCols
+limitCounter = 0
+while True:
+    if limitCounter < limit:
+        drawBoard()
+        print("player 1")
+        r = int(input("enter which row:"))
+        c = int(input("enter which box:"))
+        boardList[r - 1][c - 1] = "O"
+        drawBoard()
+        limitCounter = limitCounter + 1
+    else:
+        break
+    if limitCounter < limit:
+        print("player 2")
+        r = int(input("enter which row:"))
+        c = int(input("enter which box:"))
+        boardList[r - 1][c - 1] = "X"
+        drawBoard()
+        limitCounter = limitCounter + 1
+    else:
+        break
