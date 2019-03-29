@@ -45,9 +45,10 @@ def drawBoard():
 
 
 initiateBoard()
-limit = numberOfRows + numberOfCols
+limit = numberOfRows * numberOfCols
 limitCounter = 0
 while True:
+    # make sure box chosen is <= numberOfRows and <= numberOfCols
     if limitCounter < limit:
         drawBoard()
         print("player 1")
