@@ -42,23 +42,31 @@ def drawBoard():
                 colCounter = colCounter + 1
         print()
         rowCounter = rowCounter + 1
+def gettingBox_XY():
+            r = int(input("enter which row:"))
+            while r > numberOfRows:
+                r = int(input("enter a valid row, max is {}\n".format(numberOfRows)))
 
+            c = int(input("enter which column:"))
+            while c > numberOfCols:
+                c = int(input("enter a valid column, max is {}\n".format(numberOfCols)))
+            return r, c
+
+def validateLocation():
+    r, c = gettingBox_XY()
+    while boardList[r - 1][c - 1] != " ":
+        print("this location is taken, please choose another location")
+        r, c = gettingBox_XY()
+    return r, c
 
 initiateBoard()
 limit = numberOfRows * numberOfCols
 limitCounter = 0
 while True:
-    # make sure box chosen is <= numberOfRows and <= numberOfCols
+    # add winning logic
     if limitCounter < limit:
-        drawBoard()
         print("player 1")
-        r = int(input("enter which row:"))
-        while r > numberOfRows:
-            r = int(input("enter a valid row, max is {}\n".format(numberOfRows)))
-
-        c = int(input("enter which column:"))
-        while c > numberOfCols:
-            c = int(input("enter a valid column, max is {}\n".format(numberOfCols)))
+        r, c = validateLocation()
         boardList[r - 1][c - 1] = "O"
         drawBoard()
         limitCounter = limitCounter + 1
@@ -66,8 +74,7 @@ while True:
         break
     if limitCounter < limit:
         print("player 2")
-        r = int(input("enter which row:"))
-        c = int(input("enter which box:"))
+        r,c = validateLocation()
         boardList[r - 1][c - 1] = "X"
         drawBoard()
         limitCounter = limitCounter + 1
