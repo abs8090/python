@@ -53,7 +53,12 @@ while True:
         drawBoard()
         print("player 1")
         r = int(input("enter which row:"))
-        c = int(input("enter which box:"))
+        while r > numberOfRows:
+            r = int(input("enter a valid row, max is {}\n".format(numberOfRows)))
+
+        c = int(input("enter which column:"))
+        while c > numberOfCols:
+            c = int(input("enter a valid column, max is {}\n".format(numberOfCols)))
         boardList[r - 1][c - 1] = "O"
         drawBoard()
         limitCounter = limitCounter + 1
