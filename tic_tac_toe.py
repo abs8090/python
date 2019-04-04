@@ -67,10 +67,14 @@ def checkWinningVerticallyUpwards(r, c, ch, whichPlayer, winningSquence):
                 winningSquenceCounter += 1
             if winningSquenceCounter == winningSquence:
                 flag = True
-                print("player {} wins!!".format(whichPlayer))
+                #break
+                #print("player {} wins!!".format(whichPlayer))
+        if flag == False:
+            print("last correct box is {} {}, calling VerticallyDownwards".format(tempRow, c))
+
     else:
         print("you played in first row")
-    return flag
+    return [tempRow, c, flag]
 
 def checkWinningVerticallyDownwards(r, c, ch, whichPlayer, winningSquence):
     counter = 0
@@ -78,7 +82,7 @@ def checkWinningVerticallyDownwards(r, c, ch, whichPlayer, winningSquence):
     winningSquenceCounter = 0
     flag = False
 
-    if tempRow != numberOfRows  - 1:
+    if tempRow < numberOfRows  - 1:
         while tempRow < numberOfRows - 1 and boardList[tempRow + 1][c] == ch:
             print("yes, it is the same as:{} {}".format(tempRow + 1 , c))
             tempRow += 1
@@ -88,10 +92,23 @@ def checkWinningVerticallyDownwards(r, c, ch, whichPlayer, winningSquence):
                 winningSquenceCounter += 1
             if winningSquenceCounter == winningSquence:
                 flag = True
-                print("player {} wins!!".format(whichPlayer))
+                #print("player {} wins!!".format(whichPlayer))
+        if flag == False:
+            print("last correct box is {} {}".format(tempRow, c))
     else:
-        print("you played in the last row")
-    return flag
+        print("last correct box is {} {}".format(tempRow, c, flag))
+    return [tempRow, c, flag]
+
+def checkWinningVertically(r, c, ch, whichPlayer, winningSquence):
+    tempList = checkWinningVerticallyUpwards(r,c, ch, whichPlayer, winningSquence)
+    if tempList[2]:
+        return True
+    else:
+        tempList2 = checkWinningVerticallyDownwards(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
+        return tempList2[2]
+
+
+
 # def checkWinningHorizontally()
 # def checkWinningDaionally_RightToLeft()
 # def checkWinningDaionally_LeftToRight(
@@ -114,10 +131,11 @@ while True:
         r, c = validateLocation()
         boardList[r - 1][c - 1] = "O"
         drawBoard()
-        if checkWinningVerticallyUpwards(r - 1, c - 1, "O", 1, 3):
+
+        if checkWinningVertically(r - 1, c - 1, "O", 1, 3):
+            print("player 1 wins!!")
             break
-        if checkWinningVerticallyDownwards(r - 1, c - 1, "O", 1, 3):
-            break
+
         limitCounter = limitCounter + 1
     else:
         break
@@ -126,10 +144,10 @@ while True:
         r,c = validateLocation()
         boardList[r - 1][c - 1] = "X"
         drawBoard()
-        if checkWinningVerticallyUpwards(r - 1, c - 1, "X", 2, 3):
+        if checkWinningVertically(r - 1, c - 1, "X", 2, 3):
+            print("player 2 wins!!")
             break
-        if checkWinningVerticallyDownwards(r - 1, c - 1, "X", 2, 3):
-            break
+
         limitCounter = limitCounter + 1
     else:
         break
