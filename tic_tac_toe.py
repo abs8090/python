@@ -12,6 +12,8 @@ withOutPlus = "-"
 numberOfRows = int(input("enter how many rows:"))
 numberOfCols = int(input("enter how many columns:"))
 
+winningSquence = int(input("enter winning sequence:"))
+
 def initiateBoard():
     for row in range(numberOfRows):
         rowList = []
@@ -51,6 +53,7 @@ def gettingBox_XY():
             while c > numberOfCols:
                 c = int(input("enter a valid column, max is {}\n".format(numberOfCols)))
             return r, c
+
 def checkWinningVerticallyUpwards(r, c, ch, whichPlayer, winningSquence):
     counter = 0
     tempRow = r
@@ -132,7 +135,7 @@ while True:
         boardList[r - 1][c - 1] = "O"
         drawBoard()
 
-        if checkWinningVertically(r - 1, c - 1, "O", 1, 3):
+        if checkWinningVertically(r - 1, c - 1, "O", 1, winningSquence):
             print("player 1 wins!!")
             break
 
@@ -144,7 +147,7 @@ while True:
         r,c = validateLocation()
         boardList[r - 1][c - 1] = "X"
         drawBoard()
-        if checkWinningVertically(r - 1, c - 1, "X", 2, 3):
+        if checkWinningVertically(r - 1, c - 1, "X", 2, winningSquence):
             print("player 2 wins!!")
             break
 
