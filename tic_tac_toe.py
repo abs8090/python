@@ -70,13 +70,7 @@ def checkWinningVerticallyUpwards(r, c, ch, whichPlayer, winningSquence):
                 winningSquenceCounter += 1
             if winningSquenceCounter == winningSquence:
                 flag = True
-                #break
-                #print("player {} wins!!".format(whichPlayer))
-        if flag == False:
-            print("last correct box is {} {}, calling VerticallyDownwards".format(tempRow, c))
 
-    else:
-        print("you played in first row")
     return [tempRow, c, flag]
 
 def checkWinningVerticallyDownwards(r, c, ch, whichPlayer, winningSquence):
@@ -95,24 +89,62 @@ def checkWinningVerticallyDownwards(r, c, ch, whichPlayer, winningSquence):
                 winningSquenceCounter += 1
             if winningSquenceCounter == winningSquence:
                 flag = True
-                #print("player {} wins!!".format(whichPlayer))
-        if flag == False:
-            print("last correct box is {} {}".format(tempRow, c))
-    else:
-        print("last correct box is {} {}".format(tempRow, c, flag))
+
     return [tempRow, c, flag]
 
 def checkWinningVertically(r, c, ch, whichPlayer, winningSquence):
     tempList = checkWinningVerticallyUpwards(r,c, ch, whichPlayer, winningSquence)
     if tempList[2]:
-        return True
+        return tempList[2]
     else:
         tempList2 = checkWinningVerticallyDownwards(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
         return tempList2[2]
 
+########################################################################
 
+def checkWinningHorizontallyRight(r, c, ch, whichPlayer, winningSquence):
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
 
-# def checkWinningHorizontally()
+    if tempCol != numberOfCols - 1:
+        while tempCol < numberOfCols - 1 and boardList[r][tempCol + 1] == ch:
+            print("yes, it is the same as: {} {}".format(r, tempCol + 1))
+            tempCol = tempCol + 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+    return [r, tempCol, flag]
+
+def checkWinningHorizontallyLeft(r, c, ch, whichPlayer, winningSquence):
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
+
+    if tempCol != 0:
+        while tempCol > 0 and boardList[r][tempCol - 1] == ch:
+            print("yes, it is the same as: {} {}".format(r, tempCol - 1))
+            tempCol = tempCol - 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+
+    return [r, tempCol, flag]
+
+def checkWinningHorizontally(r, c, ch, whichPlayer, winningSquence):
+    tempList = checkWinningHorizontallyRight(r, c, ch, whichPlayer, winningSquence)
+    if tempList[2]:
+        return tempList[2]
+    else:
+        tempList2 = checkWinningHorizontallyLeft(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
+        return tempList2[2]
+
 # def checkWinningDaionally_RightToLeft()
 # def checkWinningDaionally_LeftToRight(
 
@@ -139,15 +171,22 @@ while True:
             print("player 1 wins!!")
             break
 
+        if checkWinningHorizontally(r - 1, c - 1, "O", 1, winningSquence):
+            print("player 1 wins!!")
+            break
         limitCounter = limitCounter + 1
-    else:
-        break
+
     if limitCounter < limit:
         print("player 2")
         r,c = validateLocation()
         boardList[r - 1][c - 1] = "X"
         drawBoard()
+
         if checkWinningVertically(r - 1, c - 1, "X", 2, winningSquence):
+            print("player 2 wins!!")
+            break
+
+        if checkWinningHorizontally(r - 1, c - 1, "X", 1, winningSquence):
             print("player 2 wins!!")
             break
 
