@@ -54,6 +54,8 @@ def gettingBox_XY():
                 c = int(input("enter a valid column, max is {}\n".format(numberOfCols)))
             return r, c
 
+########################################################################
+
 def checkWinningVerticallyUpwards(r, c, ch, whichPlayer, winningSquence):
     counter = 0
     tempRow = r
@@ -145,8 +147,55 @@ def checkWinningHorizontally(r, c, ch, whichPlayer, winningSquence):
         tempList2 = checkWinningHorizontallyLeft(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
         return tempList2[2]
 
-# def checkWinningDaionally_RightToLeft()
-# def checkWinningDaionally_LeftToRight(
+########################################################################
+
+def checkWinningDaionally_UppRight(r, c, ch, whichPlayer, winningSquence):
+    tempRow = r
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
+
+    if tempRow != 0 and tempCol != numberOfCols - 1:
+        while tempRow > 0 and tempCol < numberOfCols - 1 and boardList[tempRow - 1][tempCol + 1] == ch:
+            tempRow = tempRow - 1
+            tempCol = tempCol + 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+
+    return [tempRow, tempCol, flag]
+
+def checkWinningDaionally_DownLeft(r, c, ch, whichPlayer, winningSquence):
+    tempRow = r
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
+
+    if tempRow < numberOfRows  - 1 and tempCol != 0:
+        while tempRow < numberOfRows - 1 and tempCol > 0 and boardList[tempRow + 1][tempCol - 1] == ch:
+            print("yes, it is the same as: {} {}".format(tempRow + 1, tempCol - 1))
+            tempRow = tempRow + 1
+            tempCol = tempCol - 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+    return [tempRow, tempCol, flag]
+
+def checkWinningDaionally_UppRight_DownLeft(r, c, ch, whichPlayer, winningSquence):
+     tempList = checkWinningDaionally_UppRight(r, c, ch, whichPlayer, winningSquence)
+     if tempList[2]:
+         return tempList[2]
+     else:
+         tempList2 = checkWinningDaionally_DownLeft(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
+         return tempList2[2]
+
+########################################################################
 
 def validateLocation():
     r, c = gettingBox_XY()
@@ -174,6 +223,11 @@ while True:
         if checkWinningHorizontally(r - 1, c - 1, "O", 1, winningSquence):
             print("player 1 wins!!")
             break
+
+        if checkWinningDaionally_UppRight_DownLeft(r - 1, c - 1, "O", 1, winningSquence):
+            print("player 1 wins!!")
+            break
+
         limitCounter = limitCounter + 1
 
     if limitCounter < limit:
@@ -190,6 +244,9 @@ while True:
             print("player 2 wins!!")
             break
 
+        if checkWinningDaionally_UppRight_DownLeft(r - 1, c - 1, "X", 2, winningSquence):
+            print("player 2 wins!!")
+            break
         limitCounter = limitCounter + 1
     else:
         break
