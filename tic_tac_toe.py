@@ -13,6 +13,8 @@ numberOfRows = int(input("enter how many rows:"))
 numberOfCols = int(input("enter how many columns:"))
 
 winningSquence = int(input("enter winning sequence:"))
+while winningSquence > numberOfRows or winningSquence > numberOfCols:
+    winningSquence = int(input("winning sequence can't be bigger than number of rows ({}) or number of cols({})\nreenter winning sequence\n".format(numberOfRows, numberOfCols)))
 
 def initiateBoard():
     for row in range(numberOfRows):
@@ -197,6 +199,52 @@ def checkWinningDaionally_UppRight_DownLeft(r, c, ch, whichPlayer, winningSquenc
 
 ########################################################################
 
+def checkWinningDaionally_UppLeft(r, c, ch, whichPlayer, winningSquence):
+    tempRow = r
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
+
+    if tempRow != 0 and tempCol != 0:
+        while tempRow > 0 and tempCol > 0 and boardList[tempRow - 1][tempCol - 1] == ch:
+            tempRow = tempRow - 1
+            tempCol = tempCol - 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+    return [tempRow, tempCol, flag]
+
+def checkWinningDaionally_DownRight(r, c, ch, whichPlayer, winningSquence):
+    tempRow = r
+    tempCol = c
+    winningSquenceCounter = 0
+    flag = False
+
+    if tempRow < numberOfRows  - 1 and tempCol < numberOfCols - 1:
+        while tempRow < numberOfRows  - 1 and tempCol < numberOfCols - 1 and boardList[tempRow + 1][tempCol + 1] == ch:
+            tempRow = tempRow + 1
+            tempCol = tempCol + 1
+            if winningSquenceCounter == 0:
+                winningSquenceCounter += 2
+            else:
+                winningSquenceCounter += 1
+            if winningSquenceCounter == winningSquence:
+                flag = True
+    return [tempRow, tempCol, flag]
+
+def checkWinningDaionally_UppLeft_DownRight(r, c, ch, whichPlayer, winningSquence):
+     tempList = checkWinningDaionally_UppLeft(r, c, ch, whichPlayer, winningSquence)
+     if tempList[2]:
+         return tempList[2]
+     else:
+         tempList2 = checkWinningDaionally_DownRight(tempList[0], tempList[1], ch, whichPlayer, winningSquence)
+         return tempList2[2]
+
+########################################################################
+
 def validateLocation():
     r, c = gettingBox_XY()
     while boardList[r - 1][c - 1] != " ":
@@ -206,10 +254,12 @@ def validateLocation():
 
 initiateBoard()
 drawBoard()
+
 limit = numberOfRows * numberOfCols
 limitCounter = 0
+
 while True:
-    # add winning logic
+
     if limitCounter < limit:
         print("player 1")
         r, c = validateLocation()
@@ -227,8 +277,12 @@ while True:
         if checkWinningDaionally_UppRight_DownLeft(r - 1, c - 1, "O", 1, winningSquence):
             print("player 1 wins!!")
             break
-
+        if checkWinningDaionally_UppLeft_DownRight(r - 1, c - 1, "O", 1, winningSquence):
+            print("player 1 wins!!")
+            break
         limitCounter = limitCounter + 1
+    else:
+        break
 
     if limitCounter < limit:
         print("player 2")
@@ -247,6 +301,10 @@ while True:
         if checkWinningDaionally_UppRight_DownLeft(r - 1, c - 1, "X", 2, winningSquence):
             print("player 2 wins!!")
             break
+        if checkWinningDaionally_UppLeft_DownRight(r - 1, c - 1, "X", 2, winningSquence):
+            print("player 2 wins!!")
+            break
+
         limitCounter = limitCounter + 1
     else:
         break
