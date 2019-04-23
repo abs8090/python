@@ -46,6 +46,7 @@ def drawBoard():
                 colCounter = colCounter + 1
         print()
         rowCounter = rowCounter + 1
+
 def gettingBox_XY():
             r = int(input("enter which row:"))
             while r > numberOfRows:
